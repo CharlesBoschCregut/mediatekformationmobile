@@ -34,6 +34,14 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".vue.FavoritesActivity"
+            android:parentActivityName=".vue.MainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".vue.FormationsActivity"
             android:parentActivityName=".vue.MainActivity"
             android:exported="false">

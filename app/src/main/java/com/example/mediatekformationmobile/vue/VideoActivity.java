@@ -29,7 +29,7 @@ public class VideoActivity extends AppCompatActivity {
      * Affichage  de la vidéo
      */
     private void init(){
-        Controle controle = Controle.getInstance();
+        Controle controle = Controle.getInstance(this);
         Formation formation = controle.getFormation();
         if(formation!=null) {
             wbvYoutube = findViewById(R.id.wbvYoutube);

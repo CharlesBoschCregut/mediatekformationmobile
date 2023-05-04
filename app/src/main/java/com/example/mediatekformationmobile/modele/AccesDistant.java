@@ -23,7 +23,7 @@ public class AccesDistant implements AsyncResponse {
      * constructeur
      */
     public AccesDistant(){
-        controle = Controle.getInstance();
+        controle = Controle.getInstance(null);
     }
 
     /**

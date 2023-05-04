@@ -17,6 +17,7 @@ import android.widget.Toast;
 public class UneFormationActivity extends AppCompatActivity {
 
     private ImageButton btnPicture;
+    private boolean onlyFavs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,8 @@ public class UneFormationActivity extends AppCompatActivity {
      * Remplissage des objets graphiques
      */
     private void init(){
-        Controle controle = Controle.getInstance();
+        Controle controle = Controle.getInstance(this);
+        this.onlyFavs = getIntent().getBooleanExtra("onlyFavs", false);
         TextView txtPublishedAt = (TextView) findViewById(R.id.txtPublishedAt);
         TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
         TextView txtDescription = (TextView) findViewById(R.id.txtDescription);
@@ -42,6 +44,16 @@ public class UneFormationActivity extends AppCompatActivity {
             MesOutils.loadMapPreview(btnPicture, formation.getPicture());
         }
         ecouteBtnPicture();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("onlyFavs", this.onlyFavs);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
     }
 
     /**

@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
      * initialisations
      */
     private void init(){
-        Controle.getInstance();
+        Controle.getInstance(this);
         creerMenu();
     }
 
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void creerMenu(){
         ecouteMenu((ImageButton)findViewById(R.id.btnFormations), FormationsActivity.class);
+        ecouteMenu((ImageButton)findViewById(R.id.btnFavoris), FavoritesActivity.class);
     }
 
     /**

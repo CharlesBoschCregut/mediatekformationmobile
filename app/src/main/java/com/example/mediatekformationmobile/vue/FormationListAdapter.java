@@ -1,5 +1,7 @@
 package com.example.mediatekformationmobile.vue;
 
+import java.text.Format;
+import java.util.HashMap;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -21,17 +23,23 @@ public class FormationListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Controle controle;
     private Context context;
+    private Boolean onlyFavs;
+    private HashMap<Integer, Integer> favorites;
+    private ArrayList<Formation> favFormations;
 
     /**
      *
      * @param lesFormations
      * @param context
      */
-    public FormationListAdapter(ArrayList<Formation> lesFormations, Context context) {
+    public FormationListAdapter(ArrayList<Formation> lesFormations, Context context,Boolean onlyFavs) {
+
         this.lesFormations = lesFormations;
-        this.controle = Controle.getInstance();
+        this.controle = Controle.getInstance(context);
         this.context = context;
+        this.onlyFavs = onlyFavs;
         this.inflater = LayoutInflater.from(context);
+        this.favorites = controle.getlesFavorites();
     }
 
     /**
@@ -72,6 +80,8 @@ public class FormationListAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        this.favorites = controle.getlesFavorites();
+        ArrayList<Formation> ListToUse;
         ViewProperties viewProperties;
         if(view == null){
             viewProperties = new ViewProperties();
@@ -99,6 +109,24 @@ public class FormationListAdapter extends BaseAdapter {
                 ouvrirUneFormationActivity(v);
             }
         });
+
+        int id = lesFormations.get(i).getId();
+        viewProperties.btnListFavori.setTag(id);
+        if (favorites.containsKey(id)) {
+            viewProperties.btnListFavori.setImageResource(R.drawable.coeur_rouge);
+        } else {
+            viewProperties.btnListFavori.setImageResource(R.drawable.coeur_gris);
+        }
+        viewProperties.btnListFavori.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onlyFavs) {
+                    lesFormations.remove(i);
+                }
+                gererFav(Integer.parseInt(viewProperties.btnListFavori.getTag().toString()));
+                notifyDataSetChanged();
+            }
+        });
         return view;
     }
 
@@ -113,6 +141,11 @@ public class FormationListAdapter extends BaseAdapter {
         context.startActivity(intent);
     }
 
+    private void gererFav(Integer id){
+        controle.GererFavrotie(id);
+
+    }
+
     /**
      * Propriétés de la ligne
      */
@@ -121,6 +154,5 @@ public class FormationListAdapter extends BaseAdapter {
         TextView txtListPublishedAt;
         TextView txtListeTitle;
     }
-
 }
 
